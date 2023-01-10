@@ -18,54 +18,58 @@ func setDirection(direction):
 	_direction = direction
 
 func _process(delta):
-	if _life > 0 && !_is_touched:
-		if !_move_started:
-			_move_end = false
-			if !_is_moving:
-				match randi()%6+1:
-					3:
-						_is_attacking = true
-				if !_is_attacking:
-					_is_moving = true
-					match randi()%4+1:
-						1:
-							_direction = "down"
-						2:
-							_direction = "up"
+	if !LinkData.is_reading:
+		if _life > 0 && !_is_touched:
+			if !_move_started:
+				_move_end = false
+				if !_is_moving:
+					match randi()%6+1:
 						3:
-							_direction = "left"
-						4:
-							_direction = "right"
-					$AnimatedSprite.play(_direction)
-					$Timer.start(rand_range(0.5,2))
+							_is_attacking = true
+					if !_is_attacking:
+						_is_moving = true
+						match randi()%4+1:
+							1:
+								_direction = "down"
+							2:
+								_direction = "up"
+							3:
+								_direction = "left"
+							4:
+								_direction = "right"
+						$AnimatedSprite.play(_direction)
+						$Timer.start(rand_range(0.5,2))
+					else:
+						$AnimatedSprite.play("attack-"+_direction)
 				else:
-					$AnimatedSprite.play("attack-"+_direction)
+					var velocity = Vector2.ZERO
+					match _direction:
+						"down" :
+							velocity.y += _speed
+						"up" :
+							velocity.y -= _speed
+						"left" :
+							velocity.x -= _speed
+						"right" :
+							velocity.x += _speed
+							
+					var collised = move_and_collide(velocity * delta)
+					if collised != null:
+						if (collised as KinematicCollision2D).collider.is_in_group("player"):
+							(collised as KinematicCollision2D).collider.emit_signal("is_touched_signal", _damage, _direction)
 			else:
-				var velocity = Vector2.ZERO
-				match _direction:
-					"down" :
-						velocity.y += _speed
-					"up" :
-						velocity.y -= _speed
-					"left" :
-						velocity.x -= _speed
-					"right" :
-						velocity.x += _speed
-						
-				var collised = move_and_collide(velocity * delta)
-				if collised != null:
-					if (collised as KinematicCollision2D).collider.is_in_group("player"):
-						(collised as KinematicCollision2D).collider.emit_signal("is_touched_signal", _damage, _direction)
+				if !_move_end:
+					_move_end = true
+					$Timer2.start(rand_range(0.25,1))
 		else:
-			if !_move_end:
-				_move_end = true
-				$Timer2.start(rand_range(0.25,1))
+			if _is_touched:
+				if $AnimatedSprite.modulate == Color("#ff0000"):
+					$AnimatedSprite.modulate = "#ffffff"
+				else:
+					$AnimatedSprite.modulate = "#ff0000"
 	else:
-		if _is_touched:
-			if $AnimatedSprite.modulate == Color("#ff0000"):
-				$AnimatedSprite.modulate = "#ffffff"
-			else:
-				$AnimatedSprite.modulate = "#ff0000"
+		$AnimatedSprite.playing = false
+		_move_started = false
 
 func _ready():
 	if _life <= 0:

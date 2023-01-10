@@ -36,20 +36,20 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	var velocity = Vector2.ZERO
-	match _direction:
-		"down" :
-			velocity.y += _speed
-		"up" :
-			velocity.y -= _speed
-		"left" :
-			velocity.x -= _speed
-		"right" :
-			velocity.x += _speed
-			
-	var collised = move_and_collide(velocity * delta)
-	if collised != null:
-		if (collised as KinematicCollision2D).collider.is_in_group("player"):
-			(collised as KinematicCollision2D).collider.emit_signal("is_touched_signal", _damage, _direction)
-		queue_free()
-	pass
+	if !LinkData.is_reading:
+		var velocity = Vector2.ZERO
+		match _direction:
+			"down" :
+				velocity.y += _speed
+			"up" :
+				velocity.y -= _speed
+			"left" :
+				velocity.x -= _speed
+			"right" :
+				velocity.x += _speed
+				
+		var collised = move_and_collide(velocity * delta)
+		if collised != null:
+			if (collised as KinematicCollision2D).collider.is_in_group("player"):
+				(collised as KinematicCollision2D).collider.emit_signal("is_touched_signal", _damage, _direction)
+			queue_free()

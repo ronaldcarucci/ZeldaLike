@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Scenes/Link/Link.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Enemies/Octorok.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scenes/HUD/HUD.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scenes/Enemies/BlueOctorok.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scenes/Zones/DialogZone.tscn" type="PackedScene" id=5]
 
 [node name="Test" type="Node2D"]
 
@@ -19,3 +20,6 @@ position = Vector2( 72, 24 )
 
 [node name="BlueOctorok" parent="Enemies" instance=ExtResource( 4 )]
 position = Vector2( 101, 63 )
+
+[node name="DialogZone" parent="." instance=ExtResource( 5 )]
+position = Vector2( 24, 48 )

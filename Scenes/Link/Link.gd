@@ -18,7 +18,8 @@ func getInput():
 		'right' : false,
 		'up' : false,
 		'down' : false,
-		'attack' : false
+		'attack' : false,
+		'passText' : false
 	}
 	if Input.is_action_just_pressed("ui_select"):
 		actions.attack = true
@@ -43,54 +44,57 @@ func _process(delta):
 	var actions = getInput()
 	var velocity = Vector2.ZERO
 	var collised = null
-	if (!_is_stun):
-		if !actions.attack && !_is_attacking:
-			_state = 'idle'
-			if actions.down && !actions.up:
-				velocity.y += _speed
-				_state = 'walk'
-				_direction = 'down'
-			if actions.up && !actions.down:
-				velocity.y -= _speed
-				_state = 'walk'
-				_direction = 'up'
-			if actions.left && !actions.right:
-				velocity.x -= _speed
-				_state = 'walk'
-				_direction = 'left'
-			if actions.right && !actions.left:
-				velocity.x += _speed
-				_state = 'walk'
-				_direction = 'right'
-			collised = move_and_collide(velocity * delta)
-			if collised != null:
-				if (collised as KinematicCollision2D).collider.is_in_group("ennemy"):
-					emit_signal("is_touched_signal", (collised as KinematicCollision2D).collider._damage)
-			$AnimatedSprite.play(_state+"-"+_direction)
-		else:
-			if !_is_attacking:
-				_sword_instance = _sword_scene.instance()
-				_sword_instance.set_direction(_direction)
-				$Weapon.add_child(_sword_instance)
-				_is_attacking = true
-				_state = 'attack'
+	if !LinkData.is_reading:
+		if !_is_stun:
+			if !actions.attack && !_is_attacking:
+				_state = 'idle'
+				if actions.down && !actions.up:
+					velocity.y += _speed
+					_state = 'walk'
+					_direction = 'down'
+				if actions.up && !actions.down:
+					velocity.y -= _speed
+					_state = 'walk'
+					_direction = 'up'
+				if actions.left && !actions.right:
+					velocity.x -= _speed
+					_state = 'walk'
+					_direction = 'left'
+				if actions.right && !actions.left:
+					velocity.x += _speed
+					_state = 'walk'
+					_direction = 'right'
+				collised = move_and_collide(velocity * delta)
+				if collised != null:
+					if (collised as KinematicCollision2D).collider.is_in_group("ennemy"):
+						emit_signal("is_touched_signal", (collised as KinematicCollision2D).collider._damage)
 				$AnimatedSprite.play(_state+"-"+_direction)
-				$SlashSoundEffect.play()
-				$Timer.start(_attack_speed)
+			else:
+				if !_is_attacking:
+					_sword_instance = _sword_scene.instance()
+					_sword_instance.set_direction(_direction)
+					$Weapon.add_child(_sword_instance)
+					_is_attacking = true
+					_state = 'attack'
+					$AnimatedSprite.play(_state+"-"+_direction)
+					$SlashSoundEffect.play()
+					$Timer.start(_attack_speed)
+		else:
+			$AnimatedSprite.visible = !$AnimatedSprite.visible
+			match _direction:
+				"right":
+					velocity.x -= 1.5 * _speed
+				"left":
+					velocity.x += 1.5 * _speed
+				"up" :
+					velocity.y += 1.5 * _speed
+				"down" :
+					velocity.y -= 1.5 * _speed
+				_:
+					pass
+			var _t = move_and_collide(velocity * delta)
 	else:
-		$AnimatedSprite.visible = !$AnimatedSprite.visible
-		match _direction:
-			"right":
-				velocity.x -= 1.5 * _speed
-			"left":
-				velocity.x += 1.5 * _speed
-			"up" :
-				velocity.y += 1.5 * _speed
-			"down" :
-				velocity.y -= 1.5 * _speed
-			_:
-				pass
-		var _t = move_and_collide(velocity * delta)
+		$AnimatedSprite.play("idle-"+_direction)
 
 
 func _on_Timer_timeout():

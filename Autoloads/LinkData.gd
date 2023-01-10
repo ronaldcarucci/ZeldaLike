@@ -13,5 +13,7 @@ var link = {
 	"rupies" : 0
 }
 
+var is_reading = false
+
 func _ready():
 	randomize()
