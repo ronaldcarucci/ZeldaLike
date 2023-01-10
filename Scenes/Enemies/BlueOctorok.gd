@@ -3,7 +3,7 @@ extends KinematicBody2D
 signal is_touched
 
 var _life = 6
-var _damage = 0.5
+var _damage = 1
 var _direction = "down"
 var _is_moving = false
 var _move_started = false
