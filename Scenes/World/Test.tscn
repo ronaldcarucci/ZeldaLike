@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Scenes/Link/Link.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Scenes/Enemies/Octorok.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/HUD/HUD.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scenes/Enemies/BlueOctorok.tscn" type="PackedScene" id=4]
+
+[node name="Test" type="Node2D"]
+
+[node name="Link" parent="." groups=["player"] instance=ExtResource( 1 )]
+position = Vector2( 24, 24 )
+
+[node name="HUD" parent="." instance=ExtResource( 3 )]
+
+[node name="Enemies" type="Node2D" parent="."]
+
+[node name="Octorok" parent="Enemies" instance=ExtResource( 2 )]
+position = Vector2( 72, 24 )
+
+[node name="BlueOctorok" parent="Enemies" instance=ExtResource( 4 )]
+position = Vector2( 101, 63 )

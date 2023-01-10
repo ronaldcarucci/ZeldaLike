@@ -1,0 +1,23 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/LOZ_Shore.wav-c613d818b26da7a16e10637d7b89d0cf.sample"
+
+[deps]
+
+source_file="res://SoundEffects/LOZ_Shore.wav"
+dest_files=[ "res://.import/LOZ_Shore.wav-c613d818b26da7a16e10637d7b89d0cf.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0
