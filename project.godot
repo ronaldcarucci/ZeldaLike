@@ -21,7 +21,7 @@ _global_script_class_icons={
 [application]
 
 config/name="ZeldaLike"
-run/main_scene="res://Scenes/World/Test.tscn"
+run/main_scene="res://Scenes/World/Overworld.tscn"
 config/icon="res://icon.png"
 
 [autoload]
