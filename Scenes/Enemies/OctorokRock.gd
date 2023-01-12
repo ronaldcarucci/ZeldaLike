@@ -7,7 +7,6 @@ var _damage = 1
 func set_damage(damage : int):
 	_damage = damage
 
-
 func set_direction(direction : String):
 	_direction = direction
 	match direction :

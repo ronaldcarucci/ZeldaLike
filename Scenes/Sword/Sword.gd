@@ -30,7 +30,7 @@ func set_direction(direction : String):
 			pass
 
 func _on_Sword_body_entered(body):
-	if body.is_in_group("ennemy"):
+	if body.is_in_group("ennemy") && body.is_in_group("touchable"):
 		match _direction :
 			"right":
 				body.setDirection("left")

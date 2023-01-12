@@ -27,6 +27,7 @@ config/icon="res://icon.png"
 [autoload]
 
 LinkData="*res://Autoloads/LinkData.gd"
+Enemies="*res://Autoloads/Enemies.gd"
 
 [display]
 
